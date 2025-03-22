@@ -7,31 +7,81 @@ RSpec.describe BucketSdk::Client do
   let(:client) { described_class.new(base_url: base_url) }
 
   describe "#upload_object" do
-    let(:data) { "Hello, world!" }
+    let(:file_content) { "Hello, world!" }
     let(:destination) { "path/to/file.txt" }
     let(:response_body) { { "url" => "https://cdn.example.com/path/to/file.txt" }.to_json }
     let(:status) { 200 }
-
+    let(:temp_file) { Tempfile.new('test_upload') }
+    
     before do
-      stub_request(:post, "#{base_url}/api/v2/objects")
-        .with(
-          body: { data: data, destination: destination }.to_json,
-          headers: {
-            "Content-Type" => "application/json",
-            "Accept" => "application/json"
-          }
-        )
-        .to_return(
-          status: status,
-          body: response_body,
-          headers: { "Content-Type" => "application/json" }
-        )
+      temp_file.write(file_content)
+      temp_file.rewind
     end
 
-    it "uploads an object to the bucket" do
-      response = client.upload_object(data: data, destination: destination)
-      expect(response).to be_a(BucketSdk::Models::LoadResponse)
-      expect(response.url).to eq("https://cdn.example.com/path/to/file.txt")
+    after do
+      temp_file.close
+      temp_file.unlink
+    end
+
+    context "when uploading a File object" do
+      before do
+        stub_request(:post, "#{base_url}/api/v2/objects")
+          .with(
+            headers: { 
+              "Accept" => "application/json",
+              "Content-Type" => /multipart\/form-data/
+            },
+            query: { destination: destination }
+          )
+          .to_return(
+            status: status,
+            body: response_body,
+            headers: { "Content-Type" => "application/json" }
+          )
+      end
+
+      it "uploads a file to the bucket" do
+        response = client.upload_object(file: temp_file, destination: destination)
+        expect(response).to be_a(BucketSdk::Models::LoadResponse)
+        expect(response.url).to eq("https://cdn.example.com/path/to/file.txt")
+      end
+    end
+
+    context "when uploading a file path" do
+      let(:file_path) { "spec/fixtures/test_file.txt" }
+      
+      before do
+        allow(File).to receive(:exist?).with(file_path).and_return(true)
+        allow(File).to receive(:open).with(file_path, 'r').and_return(temp_file)
+
+        stub_request(:post, "#{base_url}/api/v2/objects")
+          .with(
+            headers: { 
+              "Accept" => "application/json",
+              "Content-Type" => /multipart\/form-data/
+            },
+            query: { destination: destination }
+          )
+          .to_return(
+            status: status,
+            body: response_body,
+            headers: { "Content-Type" => "application/json" }
+          )
+      end
+
+      it "uploads a file to the bucket using a file path" do
+        response = client.upload_object(file: file_path, destination: destination)
+        expect(response).to be_a(BucketSdk::Models::LoadResponse)
+        expect(response.url).to eq("https://cdn.example.com/path/to/file.txt")
+      end
+    end
+
+    context "when providing an invalid file" do
+      it "raises an ArgumentError" do
+        expect {
+          client.upload_object(file: "not_a_real_file.txt", destination: destination)
+        }.to raise_error(ArgumentError, "File must be a File object or a valid file path")
+      end
     end
 
     context "when validation error occurs" do
@@ -48,9 +98,25 @@ RSpec.describe BucketSdk::Client do
         }.to_json
       end
 
+      before do
+        stub_request(:post, "#{base_url}/api/v2/objects")
+          .with(
+            headers: { 
+              "Accept" => "application/json",
+              "Content-Type" => /multipart\/form-data/
+            },
+            query: { destination: destination }
+          )
+          .to_return(
+            status: status,
+            body: response_body,
+            headers: { "Content-Type" => "application/json" }
+          )
+      end
+
       it "raises a ValidationError" do
         expect {
-          client.upload_object(data: data, destination: destination)
+          client.upload_object(file: temp_file, destination: destination)
         }.to raise_error(BucketSdk::Models::ValidationError)
       end
     end
