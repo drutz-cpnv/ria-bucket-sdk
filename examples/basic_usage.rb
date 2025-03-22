@@ -11,7 +11,7 @@ client = BucketSdk.new(
 # Upload an object
 begin
   response = client.upload_object(
-    data: "Hello, world!",
+    file: File.open('path/to/local/file.txt', 'r'),
     destination: "path/to/file.txt"
   )
   puts "File uploaded successfully. URL: #{response.url}"
