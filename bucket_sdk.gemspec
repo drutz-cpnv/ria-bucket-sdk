@@ -4,7 +4,7 @@ require_relative "lib/bucket_sdk/version"
 
 Gem::Specification.new do |spec|
   spec.name = "bucket_sdk"
-  spec.version = Bucket::Sdk::VERSION
+  spec.version = BucketSdk::VERSION
   spec.authors = ["drutz-cpnv"]
   spec.email = ["dimitri.rutz@eduvaud.ch"]
 
