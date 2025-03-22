@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "sdk/version"
+require_relative "bucket_sdk/version"
 
-module Bucket
-  # SDK for interacting with the Bucket API
-  module Sdk
+module BucketSdk
     class Error < StandardError; end
 
     # Creates a new client instance
@@ -15,7 +13,6 @@ module Bucket
       Client.new(base_url: base_url, timeout: timeout)
     end
   end
-end
 
-require_relative "sdk/models"
-require_relative "sdk/client"
+require_relative "bucket_sdk/models"
+require_relative "bucket_sdk/client"

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "bucket/sdk"
+require "bucket_sdk"
 require "webmock/rspec"
 
 RSpec.configure do |config|

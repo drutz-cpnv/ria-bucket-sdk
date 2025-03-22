@@ -1,0 +1,7 @@
+module BucketSdk
+  module Models
+    class LoadResponse
+      attr_reader url: string
+    end
+  end
+end

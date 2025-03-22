@@ -1,5 +1,4 @@
-module Bucket
-  module Sdk
+module BucketSdk
     class Client
       attr_reader base_url: string
       attr_reader timeout: int
@@ -7,4 +6,3 @@ module Bucket
       def upload_object: -> Models::LoadResponse
     end
   end
-end

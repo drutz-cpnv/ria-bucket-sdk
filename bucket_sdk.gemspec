@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require_relative "lib/bucket/sdk/version"
+require_relative "lib/bucket_sdk/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "bucket-sdk"
+  spec.name = "bucket_sdk"
   spec.version = Bucket::Sdk::VERSION
   spec.authors = ["drutz-cpnv"]
   spec.email = ["dimitri.rutz@eduvaud.ch"]

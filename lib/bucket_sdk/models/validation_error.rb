@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-module Bucket
-  module Sdk
+module BucketSdk
     module Models
-      class ValidationError < Bucket::Sdk::Error
+      class ValidationError < BucketSdk::Error
         attr_reader :details
 
         def initialize(details)
@@ -19,4 +18,3 @@ module Bucket
       end
     end
   end
-end 

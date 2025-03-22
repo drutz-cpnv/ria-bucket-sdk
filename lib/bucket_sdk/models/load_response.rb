@@ -1,21 +1,19 @@
 # frozen_string_literal: true
 
-module Bucket
-  module Sdk
+module BucketSdk
     module Models
-      class ListResponse
-        attr_reader :objects
+      class LoadResponse
+        attr_reader :url
 
         def initialize(data)
-          @objects = data["objects"] || []
+          @url = data["url"]
         end
 
         def to_h
           {
-            objects: objects
+            url: url
           }
         end
       end
     end
   end
-end 

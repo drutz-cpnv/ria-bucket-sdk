@@ -1,0 +1,6 @@
+module BucketSdk
+  VERSION: String
+
+  # See the writing guide of rbs: https://github.com/ruby/rbs#guides
+  def self.new: -> untyped
+end

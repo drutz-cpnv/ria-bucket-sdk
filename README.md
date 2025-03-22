@@ -7,13 +7,13 @@ Ruby SDK for the Bucket Storage Service that allows you to upload and list files
 Install the gem and add to the application's Gemfile by executing:
 
 ```
-$ bundle add bucket-sdk
+$ bundle add bucket_sdk
 ```
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
 ```
-$ gem install bucket-sdk
+$ gem install bucket_sdk
 ```
 
 ## Usage
@@ -21,7 +21,7 @@ $ gem install bucket-sdk
 ### Initialize the client
 
 ```ruby
-require 'bucket/sdk'
+require 'bucket_sdk'
 
 # Initialize the client with the base URL of the API
 client = Bucket::Sdk.new(

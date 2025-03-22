@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require "bucket/sdk"
+require "bucket_sdk"
 
 # Initialize the client
-client = Bucket::Sdk.new(
+client = BucketSdk.new(
   base_url: "https://api.example.com"
 )
 
@@ -15,7 +15,7 @@ begin
     destination: "path/to/file.txt"
   )
   puts "File uploaded successfully. URL: #{response.url}"
-rescue Bucket::Sdk::Error => e
+rescue BucketSdk::Error => e
   puts "Error uploading file: #{e.message}"
 end
 
@@ -33,6 +33,6 @@ begin
   response.objects.each do |object|
     puts "- #{object.inspect}"
   end
-rescue Bucket::Sdk::Error => e
+rescue BucketSdk::Error => e
   puts "Error listing objects: #{e.message}"
 end 

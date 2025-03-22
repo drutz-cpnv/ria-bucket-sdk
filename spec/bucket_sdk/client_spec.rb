@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe Bucket::Sdk::Client do
+RSpec.describe BucketSdk::Client do
   let(:base_url) { "https://api.example.com" }
   let(:client) { described_class.new(base_url: base_url) }
 
@@ -30,7 +30,7 @@ RSpec.describe Bucket::Sdk::Client do
 
     it "uploads an object to the bucket" do
       response = client.upload_object(data: data, destination: destination)
-      expect(response).to be_a(Bucket::Sdk::Models::LoadResponse)
+      expect(response).to be_a(BucketSdk::Models::LoadResponse)
       expect(response.url).to eq("https://cdn.example.com/path/to/file.txt")
     end
 
@@ -51,7 +51,7 @@ RSpec.describe Bucket::Sdk::Client do
       it "raises a ValidationError" do
         expect {
           client.upload_object(data: data, destination: destination)
-        }.to raise_error(Bucket::Sdk::Models::ValidationError)
+        }.to raise_error(BucketSdk::Models::ValidationError)
       end
     end
   end
@@ -78,7 +78,7 @@ RSpec.describe Bucket::Sdk::Client do
 
     it "lists objects in the bucket" do
       response = client.list_objects(recurse: recurse)
-      expect(response).to be_a(Bucket::Sdk::Models::ListResponse)
+      expect(response).to be_a(BucketSdk::Models::ListResponse)
       expect(response.objects).to eq(objects)
     end
 
@@ -93,4 +93,4 @@ RSpec.describe Bucket::Sdk::Client do
       end
     end
   end
-end 
+end

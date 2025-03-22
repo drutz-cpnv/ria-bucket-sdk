@@ -4,7 +4,7 @@ require "faraday"
 require "faraday/multipart"
 require "json"
 
-class Bucket::Sdk::Client
+class BucketSdk::Client
   attr_reader :base_url, :timeout
 
   def initialize(base_url:, timeout: 60)
@@ -25,7 +25,7 @@ class Bucket::Sdk::Client
                                })
     end
 
-    handle_response(response, Models::LoadResponse)
+    handle_response(response, BucketSdk::Models::LoadResponse)
   end
 
   # List objects in the bucket
@@ -36,7 +36,7 @@ class Bucket::Sdk::Client
       req.params[:recurse] = recurse
     end
 
-    handle_response(response, Models::ListResponse)
+    handle_response(response, BucketSdk::Models::ListResponse)
   end
 
   private
@@ -59,9 +59,9 @@ class Bucket::Sdk::Client
       model_class.new(JSON.parse(response.body))
     when 422
       error_data = JSON.parse(response.body)
-      raise Models::ValidationError.new(error_data["detail"])
+      raise BucketSdk::Models::ValidationError.new(error_data["detail"])
     else
-      raise Bucket::Sdk::Error, "API request failed with status #{response.status}: #{response.body}"
+      raise BucketSdk::Error, "API request failed with status #{response.status}: #{response.body}"
     end
   end
 end

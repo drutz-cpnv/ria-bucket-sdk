@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-module Bucket
-  module Sdk
+module BucketSdk
     module Models
       class LoadRequest
         attr_reader :data, :destination
@@ -20,4 +19,3 @@ module Bucket
       end
     end
   end
-end 
