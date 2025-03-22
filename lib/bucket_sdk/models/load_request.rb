@@ -3,16 +3,19 @@
 module BucketSdk
     module Models
       class LoadRequest
-        attr_reader :data, :destination
+        attr_reader :file, :destination
 
-        def initialize(data:, destination:)
-          @data = data
+        # Initialize a new LoadRequest
+        # @param file [File, String] The file to upload (either a File object or a path to a file)
+        # @param destination [String] The destination path in the bucket
+        def initialize(file:, destination:)
+          @file = file
           @destination = destination
         end
 
         def to_h
           {
-            data: data,
+            file: file,
             destination: destination
           }
         end
