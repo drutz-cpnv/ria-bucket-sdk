@@ -1,0 +1,11 @@
+module Bucket
+  module Sdk
+    module Models
+      class ListResponse
+        attr_reader objects: array[untyped]
+
+        def to_h: -> Hash[:objects, untyped]
+      end
+    end
+  end
+end
