@@ -5,7 +5,11 @@ RSpec.describe Bucket::Sdk do
     expect(Bucket::Sdk::VERSION).not_to be nil
   end
 
-  it "does something useful" do
-    expect(false).to eq(true)
+  describe ".new" do
+    it "returns a new client instance" do
+      client = Bucket::Sdk.new(base_url: "https://api.example.com")
+      expect(client).to be_a(Bucket::Sdk::Client)
+      expect(client.base_url).to eq("https://api.example.com")
+    end
   end
 end
