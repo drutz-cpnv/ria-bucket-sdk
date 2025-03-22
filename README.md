@@ -24,7 +24,7 @@ $ gem install bucket_sdk
 require 'bucket_sdk'
 
 # Initialize the client with the base URL of the API
-client = Bucket::Sdk.new(
+client = BucketSdk::Client.new(
   base_url: 'https://api.example.com',
   timeout: 60 # Optional, default is 60 seconds
 )
@@ -33,10 +33,16 @@ client = Bucket::Sdk.new(
 ### Upload an object
 
 ```ruby
-# Upload a string to the bucket
+# Upload a file using a File object
 response = client.upload_object(
-  data: 'Hello, world!',
-  destination: 'path/to/file.txt'
+  file: File.open('path/to/local/file.txt', 'r'),
+  destination: 'path/to/destination/file.txt'
+)
+
+# Or upload a file using a file path
+response = client.upload_object(
+  file: 'path/to/local/file.txt',
+  destination: 'path/to/destination/file.txt'
 )
 
 # Get the URL of the uploaded object
