@@ -11,7 +11,7 @@ client = BucketSdk.new(
 # Upload an object
 begin
   response = client.upload_object(
-    file: File.open('path/to/local/file.txt', 'r'),
+    file: File.open("path/to/local/file.txt", "r"),
     destination: "path/to/file.txt"
   )
   puts "File uploaded successfully. URL: #{response.url}"
@@ -26,7 +26,7 @@ begin
   response.objects.each do |object|
     puts "- #{object.inspect}"
   end
-  
+
   # List objects recursively
   response = client.list_objects(recurse: true)
   puts "\nAll objects (recursive):"
@@ -35,4 +35,4 @@ begin
   end
 rescue BucketSdk::Error => e
   puts "Error listing objects: #{e.message}"
-end 
+end

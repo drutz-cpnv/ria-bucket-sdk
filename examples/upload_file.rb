@@ -19,7 +19,7 @@ begin
   )
   puts "File uploaded successfully!"
   puts "URL: #{response.url}"
-rescue => e
+rescue StandardError => e
   puts "Error uploading file: #{e.message}"
 end
 
@@ -35,24 +35,24 @@ begin
   )
   puts "File uploaded successfully!"
   puts "URL: #{response.url}"
-rescue => e
+rescue StandardError => e
   puts "Error uploading file: #{e.message}"
 end
 
 # Create a temporary file and upload it
 puts "\nUploading temporary file"
-temp_file = Tempfile.new('example')
+temp_file = Tempfile.new("example")
 begin
   temp_file.write("Hello, world!")
   temp_file.rewind
-  
+
   response = client.upload_object(
     file: temp_file,
     destination: "uploads/temp.txt"
   )
   puts "Temporary file uploaded successfully!"
   puts "URL: #{response.url}"
-rescue => e
+rescue StandardError => e
   puts "Error uploading temporary file: #{e.message}"
 ensure
   temp_file.close
@@ -67,6 +67,6 @@ begin
   response.objects.each do |obj|
     puts "- #{obj.inspect}"
   end
-rescue => e
+rescue StandardError => e
   puts "Error listing objects: #{e.message}"
-end 
+end
